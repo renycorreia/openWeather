@@ -28,7 +28,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Generate living doc
       if: always()
-      run: livingdoc test-assembly ${{ github.workspace }}/openWeather/bin/Debug/net7.0/openWeather.dll -t ${{ github.workspace }}/openWeather/bin/Debug/net7.0/TestExecution.json --output ${{ github.workspace }}/TestResults/report.html
+      run: livingdoc test-assembly ${{ github.workspace }}/bin/Debug/net7.0/openWeather.dll -t ${{ github.workspace }}/bin/Debug/net7.0/TestExecution.json --output ${{ github.workspace }}/TestResults/report.html
     - uses: actions/upload-artifact@v3
       with:
         name: specflow
