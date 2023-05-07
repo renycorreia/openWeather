@@ -79,7 +79,7 @@ namespace openWeather.Features
         [NUnit.Framework.DescriptionAttribute("Dados meteorológicos atuais")]
         [NUnit.Framework.CategoryAttribute("sucesso")]
         [NUnit.Framework.TestCaseAttribute("-23.5489", "-46.6388", "São Paulo", null)]
-        [NUnit.Framework.TestCaseAttribute("25.761681", "-80.191788", "Miami", null)]
+        [NUnit.Framework.TestCaseAttribute("25.7617", "-80.1918", "Miami", null)]
         public void DadosMeteorologicosAtuais(string lat, string lon, string local, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -124,10 +124,62 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Dados meteorológicos atuais por unidades de medida")]
+        [NUnit.Framework.CategoryAttribute("sucesso")]
+        [NUnit.Framework.TestCaseAttribute("-23.5489", "-46.6388", "\"standard\"", null)]
+        [NUnit.Framework.TestCaseAttribute("-23.5489", "-46.6388", "\"metric\"", null)]
+        [NUnit.Framework.TestCaseAttribute("-23.5489", "-46.6388", "\"imperial\"", null)]
+        public void DadosMeteorologicosAtuaisPorUnidadesDeMedida(string lat, string lon, string units, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "sucesso"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("lat", lat);
+            argumentsOfScenario.Add("lon", lon);
+            argumentsOfScenario.Add("units", units);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Dados meteorológicos atuais por unidades de medida", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 21
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 22
+ testRunner.Given(string.Format("a latitude {0} de um determinado local", lat), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 23
+  testRunner.And(string.Format("a longitude {0} do mesmo local", lon), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 24
+  testRunner.And(string.Format("a unidade de medida {0} em que deseja que os dados sejam retornados", units), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 25
+ testRunner.When("a api de obtenção de clima é acionada", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 26
+ testRunner.Then("a API deverá retornar status 200", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 27
+  testRunner.And(string.Format("é retornado os dados meteorológicos na unidade escolhida {0}", units), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Consulta de dados meteorológicos atuais sem a longitude")]
         [NUnit.Framework.CategoryAttribute("excecao")]
         [NUnit.Framework.TestCaseAttribute("-23.5489", null)]
-        [NUnit.Framework.TestCaseAttribute("25.761681", null)]
+        [NUnit.Framework.TestCaseAttribute("25.7617", null)]
         public void ConsultaDeDadosMeteorologicosAtuaisSemALongitude(string lat, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -140,7 +192,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("lat", lat);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Consulta de dados meteorológicos atuais sem a longitude", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 21
+#line 36
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -150,13 +202,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 22
+#line 37
  testRunner.Given(string.Format("que apenas a latitude {0} é informada e a longitude não é", lat), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 23
+#line 38
  testRunner.When("a api de obtenção de clima é acionada", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 24
+#line 39
  testRunner.Then("a API deverá retornar status 400", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

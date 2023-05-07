@@ -1,9 +1,5 @@
 ﻿using Autofac;
 using Dapper;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework.Internal;
 using openWeather.Base;
 using openWeather.Utils.Settings;
 using RestSharp;

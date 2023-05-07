@@ -1,10 +1,4 @@
-﻿using openWeather.Apis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 
 namespace openWeather.Utils.Hooks
 {
@@ -16,7 +10,7 @@ namespace openWeather.Utils.Hooks
         {
             if (_scenarioContext.ScenarioInfo.Tags.Contains("Api"))
             {
-               
+
             }
         }
     }

@@ -1,10 +1,4 @@
-﻿//using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-
-namespace openWeather.Utils.Settings
+﻿namespace openWeather.Utils.Settings
 {
     public class AppSettings
     {

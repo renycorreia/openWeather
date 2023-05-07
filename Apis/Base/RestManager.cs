@@ -1,9 +1,8 @@
-﻿using openWeather.Utils.Settings;
+﻿using openWeather.Utils;
+using openWeather.Utils.Settings;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
-using System;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace openWeather.Base
 {
@@ -102,7 +101,7 @@ namespace openWeather.Base
         protected virtual RestRequest Request(string uri, Method method)
         {
             SetupClient();
-            var url = $"{uri}&appid={AppSettings.Apikey}";
+            var url = Autenticacao(uri);
             var restRequest = new RestRequest(url, method);
 
             return restRequest;
@@ -111,7 +110,7 @@ namespace openWeather.Base
         protected virtual RestRequest BodyRequest<T>(string uri, T body, Method method)
         {
             SetupClient();
-            var url = $"{uri}&appid={AppSettings.Apikey}";
+            var url = Autenticacao(uri);
             var restRequest = new RestRequest(url, method);
 
             if (body != null)
@@ -122,7 +121,7 @@ namespace openWeather.Base
         protected virtual RestRequest BodyRequest(string uri, Method method)
         {
             SetupClient();
-            var url = $"{uri}&appid={AppSettings.Apikey}";
+            var url = Autenticacao(uri);
             var restRequest = new RestRequest(url, method);
 
             return restRequest;
@@ -182,6 +181,11 @@ namespace openWeather.Base
             RestClient.UseNewtonsoftJson();
         }
 
+        protected string Autenticacao(string uri)
+        {
+            uri += $"{CommonFunctions.ConjutorDeParametroDaUrl(uri)}appid={AppSettings.Apikey}";
+            return uri;
+        }
 
         public async Task<BaseRequest<bool>> Post(string uri)
         {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace openWeather.Apis.Suporte
+﻿namespace openWeather.Apis.Suporte
 {
     public static class ServiceLocator
     {

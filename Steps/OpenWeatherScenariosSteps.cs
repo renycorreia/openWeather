@@ -14,7 +14,7 @@ namespace openWeather.Steps
     public class OpenWeatherScenariosSteps
     {
         #region Instâncias
-        string latitude = "", longitude = "";
+        string latitude = "", longitude = "", unidade;
         public BaseRequest<CurrentWeatherData> _request = new();
         private IExecuteOpenWeatherApi? _execute;
         private readonly ISpecFlowOutputHelper _outputHelper;
@@ -64,6 +64,13 @@ namespace openWeather.Steps
             this.latitude = latitude;
         }
 
+        [Given(@"a unidade de medida ""([^""]*)"" em que deseja que os dados sejam retornados")]
+        public void GivenAUnidadeDeMedidaEmQueDesejaQueOsDadosSejamRetornados(string unidade)
+        {
+            if (unidade != "standard")
+                this.unidade = unidade;
+        }
+
         #endregion
 
         #region When
@@ -71,7 +78,7 @@ namespace openWeather.Steps
         public async Task WhenAApiDeObtencaoDeClimaEAcionada()
         {
             if (_request != null && _execute != null)
-                _request = await _execute.RetornarDadoMeteorologicoAtual(latitude, longitude);
+                _request = await _execute.RetornarDadoMeteorologicoAtual(latitude, longitude, unidade);
         }
 
         #endregion
@@ -86,12 +93,31 @@ namespace openWeather.Steps
         [Then(@"é retornado os dados meteorológicos atuais do local pré determinado (.*)")]
         public void ThenERetornadoOsDadosMeteorologicosAtuaisDoLocalPreDeterminado(string local)
         {
-            _request.Response.Coord.Lat.Should().BeApproximately(double.Parse(latitude, CultureInfo.InvariantCulture), 2);
-            _request.Response.Coord.Lon.Should().BeApproximately(double.Parse(longitude, CultureInfo.InvariantCulture), 2);
-            _request.Response.Name.Should().Be(local);
+            var weather = _request.Response;
+
+            weather.Coord.Lat.Should().Be(double.Parse(latitude, CultureInfo.InvariantCulture));
+            weather.Coord.Lon.Should().Be(double.Parse(longitude, CultureInfo.InvariantCulture));
+            weather.Name.Should().Be(local);
+        }
+
+        [Then(@"é retornado os dados meteorológicos na unidade escolhida ""([^""]*)""")]
+        public void ThenERetornadoOsDadosMeteorologicosNaUnidadeEscolhida(string unidade)
+        {
+            var weather = _request.Response;
+            if (unidade == "metric")
+            {
+                weather.Main.Temp.Should().BeInRange(3.3, 37.8); //menores e maiores temperaturas registradas para São Paulo até hoje
+            }
+            else if (unidade == "imperial")
+            {
+                weather.Main.Temp.Should().BeInRange(37.94, 100.04);
+            }
+            else
+            {
+                weather.Main.Temp.Should().BeInRange(276.45, 310.95);
+            }
         }
 
         #endregion
-
     }
 }
