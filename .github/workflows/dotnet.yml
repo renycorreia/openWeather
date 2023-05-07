@@ -17,11 +17,26 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: '7.0.x'
-        include-prerelease: true
+        dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Install Living Doc
+      run: dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Generate living doc
+      if: always()
+      run: livingdoc test-assembly ${{ github.workspace }}/openWeather/bin/Debug/net7.0/openWeather.dll -t ${{ github.workspace }}/openWeather/bin/Debug/net7.0/TestExecution.json --output ${{ github.workspace }}/TestResults/report.html
+    - uses: actions/upload-artifact@v3
+      with:
+        name: specflow
+        if: always()
+        path: ${{ github.workspace }}/TestResults/report.html
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        if: always()
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{ github.workspace }}/TestResults/
